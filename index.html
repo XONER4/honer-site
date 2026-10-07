@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#06080f">
+<title>Honer AI — умный ИИ-помощник на русском для Android</title>
+<meta name="description" content="Honer AI — умный ИИ-ассистент на русском и ещё 8 языках. Поиск по сотням сайтов сразу, распознавание фото и документов, погода, голосовой ввод. Работает в России без VPN. Бесплатно, без рекламы и слежки.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Honer AI — умный ИИ-помощник на русском">
+<meta property="og:description" content="Поиск по сотням сайтов сразу, зрение, погода, голос. На русском и ещё 8 языках. Работает в России без VPN.">
+<meta property="og:image" content="/legal/banner.jpg">
+<link rel="icon" type="image/png" href="/legal/icon.png">
+<link rel="apple-touch-icon" href="/legal/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06080f; --bg2:#0a0e1a;
+  --text:#eef1f7; --muted:#99a2b4; --faint:#6b7488;
+  --blue:#2f6bff; --blue2:#5b9bff; --blue3:#86c6ff;
+  --card:rgba(255,255,255,.035); --card2:rgba(255,255,255,.055);
+  --stroke:rgba(255,255,255,.09); --stroke2:rgba(255,255,255,.14);
+  --grad:linear-gradient(135deg,#2f6bff 0%,#5b9bff 55%,#86c6ff 100%);
+  --radius:18px;
+  --maxw:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+section{position:relative}
+h1,h2,h3{line-height:1.12;letter-spacing:-.02em;margin:0}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- background glows ---------- */
+.bgfx{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bgfx::before,.bgfx::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+.bgfx::before{width:720px;height:720px;left:-180px;top:-240px;background:radial-gradient(circle,#1e49c8,transparent 65%)}
+.bgfx::after{width:620px;height:620px;right:-160px;top:280px;background:radial-gradient(circle,#2f6bff,transparent 60%);opacity:.35}
+.grid{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:52px 52px;-webkit-mask-image:radial-gradient(circle at 50% 18%,#000 0%,transparent 60%);mask-image:radial-gradient(circle at 50% 18%,#000 0%,transparent 60%)}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+  background:rgba(6,8,15,.6);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+header.scrolled{border-bottom:1px solid var(--stroke);background:rgba(6,8,15,.82)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:19px;letter-spacing:-.01em}
+.brand img{width:34px;height:34px;border-radius:9px;box-shadow:0 4px 18px rgba(47,107,255,.5)}
+.navlinks{display:flex;gap:30px;align-items:center}
+.navlinks a{color:var(--muted);font-size:15px;font-weight:500;transition:color .2s}
+.navlinks a:hover{color:var(--text)}
+.navlinks > .btn{display:none}
+.btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:15px;
+  padding:11px 20px;border-radius:12px;cursor:pointer;border:1px solid transparent;transition:transform .15s,box-shadow .25s,background .2s;white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--grad);color:#06122e;box-shadow:0 8px 24px rgba(47,107,255,.4)}
+.btn-primary:hover{box-shadow:0 10px 32px rgba(47,107,255,.6)}
+.btn-ghost{background:var(--card);color:var(--text);border:1px solid var(--stroke2)}
+.btn-ghost:hover{background:var(--card2)}
+.btn-lg{padding:15px 28px;font-size:16.5px;border-radius:14px}
+.menuToggle{display:none;background:none;border:0;color:var(--text);cursor:pointer;padding:6px}
+
+/* ---------- hero ---------- */
+.hero{padding:76px 0 60px;text-align:center}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border:1px solid var(--stroke2);
+  border-radius:999px;background:var(--card);font-size:13.5px;color:var(--muted);font-weight:500;margin-bottom:26px}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:#37d67a;box-shadow:0 0 10px #37d67a}
+h1.hero-h{font-size:clamp(40px,7vw,74px);font-weight:900;letter-spacing:-.035em}
+.hero p.sub{max-width:660px;margin:24px auto 0;color:var(--muted);font-size:clamp(16px,2.2vw,19.5px)}
+.cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.microtrust{margin-top:22px;color:var(--faint);font-size:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center}
+.microtrust span{display:inline-flex;align-items:center;gap:7px}
+.microtrust .sep{width:4px;height:4px;border-radius:50%;background:var(--faint);opacity:.6}
+
+/* hero shots */
+.shots{position:relative;margin:58px auto 0;max-width:720px;display:flex;justify-content:center;gap:0;perspective:1600px}
+.shots .ph{width:min(50%,280px);border-radius:26px;border:1px solid var(--stroke2);overflow:hidden;
+  box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.03);background:#0a0e1a}
+.shots .ph img{width:100%;display:block}
+.shots .ph.a{transform:rotate(-6deg) translateY(14px);z-index:1}
+.shots .ph.b{transform:rotate(5deg) translateX(-24px);margin-left:-40px;z-index:2}
+.shots .glow{position:absolute;inset:-40px;z-index:0;background:radial-gradient(ellipse at center,rgba(47,107,255,.35),transparent 60%);filter:blur(40px)}
+
+/* ---------- strip ---------- */
+.strip{padding:30px 0;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);margin-top:60px}
+.strip .lbl{text-align:center;color:var(--faint);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{padding:9px 16px;border-radius:999px;background:var(--card);border:1px solid var(--stroke);color:var(--muted);font-size:14px;font-weight:500}
+
+/* ---------- section head ---------- */
+.sec{padding:84px 0}
+.sec-head{text-align:center;max-width:680px;margin:0 auto 52px}
+.sec-head .kicker{color:var(--blue2);font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.sec-head h2{font-size:clamp(28px,4.4vw,44px);font-weight:800}
+.sec-head p{color:var(--muted);margin-top:16px;font-size:17.5px}
+
+/* ---------- features ---------- */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feat{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);padding:26px 24px;transition:transform .25s,border-color .25s,background .25s}
+.feat:hover{transform:translateY(-4px);border-color:var(--stroke2);background:var(--card2)}
+.feat .ic{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,rgba(47,107,255,.22),rgba(134,198,255,.1));border:1px solid rgba(91,155,255,.3);color:var(--blue3);margin-bottom:18px}
+.feat .ic svg{width:25px;height:25px}
+.feat h3{font-size:19px;font-weight:700;margin-bottom:9px}
+.feat p{color:var(--muted);font-size:15.5px;margin:0}
+
+/* ---------- gallery ---------- */
+.gallery{display:flex;gap:18px;overflow-x:auto;padding:6px 20px 26px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.gallery::-webkit-scrollbar{height:8px}
+.gallery::-webkit-scrollbar-thumb{background:var(--stroke2);border-radius:8px}
+.gcard{flex:0 0 auto;width:250px;scroll-snap-align:center;border-radius:22px;overflow:hidden;border:1px solid var(--stroke2);box-shadow:0 20px 50px rgba(0,0,0,.5);background:#0a0e1a}
+.gcard img{width:100%;display:block}
+
+/* ---------- privacy ---------- */
+.privacy{background:linear-gradient(180deg,rgba(47,107,255,.07),transparent);border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke)}
+.privacy .inner{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.plist{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:16px}
+.plist li{display:flex;gap:14px;align-items:flex-start}
+.plist .pi{flex:0 0 auto;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(47,107,255,.16);border:1px solid rgba(91,155,255,.3);color:var(--blue3)}
+.plist .pi svg{width:18px;height:18px}
+.plist b{font-weight:600}
+.plist p{margin:3px 0 0;color:var(--muted);font-size:15px}
+.shieldwrap{display:flex;justify-content:center}
+.shield{width:220px;height:220px;border-radius:32px;background:linear-gradient(145deg,rgba(47,107,255,.2),rgba(10,14,26,.6));
+  border:1px solid var(--stroke2);display:flex;align-items:center;justify-content:center;box-shadow:0 30px 70px rgba(47,107,255,.25)}
+.shield svg{width:96px;height:96px;color:var(--blue3)}
+
+/* ---------- download ---------- */
+.download .box{background:linear-gradient(135deg,rgba(47,107,255,.14),rgba(134,198,255,.05));
+  border:1px solid var(--stroke2);border-radius:28px;padding:56px 40px;text-align:center;position:relative;overflow:hidden}
+.download .box::before{content:"";position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(47,107,255,.3),transparent 60%);top:-180px;left:50%;transform:translateX(-50%);filter:blur(30px)}
+.download .box>*{position:relative}
+.download h2{font-size:clamp(28px,4.4vw,42px);font-weight:800}
+.download p.d{color:var(--muted);max-width:520px;margin:16px auto 0}
+.download .cta{margin-top:30px}
+.dnote{margin-top:18px;color:var(--faint);font-size:13.5px}
+.soon{display:inline-flex;gap:8px;align-items:center;color:var(--muted);font-size:14px;margin-top:22px;flex-wrap:wrap;justify-content:center}
+.soon .b{padding:6px 13px;border-radius:999px;border:1px dashed var(--stroke2);background:rgba(255,255,255,.02)}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--stroke);padding:48px 0 60px;margin-top:30px}
+.foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.foot .brand{font-size:17px}
+.foot .flinks{display:flex;gap:26px;flex-wrap:wrap}
+.foot .flinks a{color:var(--muted);font-size:14.5px;transition:color .2s}
+.foot .flinks a:hover{color:var(--text)}
+.foot .meta{color:var(--faint);font-size:13.5px;margin-top:16px;width:100%}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .navlinks{position:fixed;inset:66px 0 auto;flex-direction:column;gap:0;background:rgba(6,8,15,.97);
+    border-bottom:1px solid var(--stroke);padding:8px 0;transform:translateY(-120%);transition:transform .3s;z-index:40}
+  .navlinks.open{transform:none}
+  .navlinks a{padding:15px 24px;width:100%;font-size:16px}
+  .navlinks > .btn{display:inline-flex;margin:10px 24px;justify-content:center;width:auto}
+  .menuToggle{display:block}
+  .nav .btn-primary.desktop{display:none}
+  .features{grid-template-columns:1fr}
+  .privacy .inner{grid-template-columns:1fr;gap:32px}
+  .shieldwrap{order:-1}
+}
+@media (max-width:520px){
+  .shots{margin-top:46px}
+  .shots .ph{width:52%}
+  .shots .ph.b{margin-left:-30px}
+  .sec{padding:64px 0}
+  .hero{padding:52px 0 40px}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{transition:none;opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="bgfx"></div>
+<div class="grid"></div>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#top" class="brand"><img src="/legal/icon.png" alt="Honer AI"> Honer AI</a>
+    <nav class="navlinks" id="nav">
+      <a href="#features">Возможности</a>
+      <a href="#shots">Скриншоты</a>
+      <a href="#privacy">Приватность</a>
+      <a href="#download">Скачать</a>
+      <a href="/legal/app" class="btn btn-primary">Скачать</a>
+    </nav>
+    <a href="/legal/app" class="btn btn-primary desktop">Скачать APK</a>
+    <button class="menuToggle" id="menuBtn" aria-label="Меню">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap">
+    <div class="pill reveal"><span class="dot"></span> Работает в России без VPN</div>
+    <h1 class="hero-h reveal">Умный ИИ, который<br><span class="grad">ищет, видит и отвечает</span></h1>
+    <p class="sub reveal">Honer AI — помощник на русском и ещё 8 языках. Задавайте вопросы, ищите товары и информацию по сотням сайтов сразу, распознавайте фото и документы, узнавайте погоду — быстро и по делу.</p>
+    <div class="cta reveal">
+      <a href="/legal/app" class="btn btn-primary btn-lg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+        Скачать APK
+      </a>
+      <a href="#features" class="btn btn-ghost btn-lg">Возможности</a>
+    </div>
+    <div class="microtrust reveal">
+      <span>Бесплатно</span><span class="sep"></span>
+      <span>Без рекламы и слежки</span><span class="sep"></span>
+      <span>9 языков</span>
+    </div>
+    <div class="shots reveal">
+      <div class="glow"></div>
+      <div class="ph a"><img src="/legal/shot/3.jpg" alt="Распознавание фото" loading="lazy"></div>
+      <div class="ph b"><img src="/legal/shot/1.jpg" alt="Поиск по сайтам" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<section class="strip reveal">
+  <div class="wrap">
+    <div class="lbl">Ищет одновременно по сотням источников</div>
+    <div class="chips">
+      <span class="chip">Wildberries</span>
+      <span class="chip">Ozon</span>
+      <span class="chip">Яндекс Маркет</span>
+      <span class="chip">Wikipedia</span>
+      <span class="chip">hi-tech.mail.ru</span>
+      <span class="chip">и сотни сайтов</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Возможности</div>
+      <h2>Всё, что нужно от ИИ — в одном приложении</h2>
+      <p>От умного поиска и зрения до погоды и голосового ввода. Быстро, понятно и на вашем языке.</p>
+    </div>
+    <div class="features">
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 0-4 4 4 4 0 0 0-1 7.9A3.5 3.5 0 0 0 12 20a3.5 3.5 0 0 0 5-5.1A4 4 0 0 0 16 7a4 4 0 0 0-4-4Z"/><path d="M12 3v17"/></svg></div>
+        <h3>Умные ответы</h3>
+        <p>Отвечает на вопросы, помогает с текстами, учёбой и идеями. Режим «Рассуждение» — для сложных задач.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <h3>Поиск по интернету</h3>
+        <p>Ищет в Wildberries, Ozon, Яндексе и сотнях сайтов одновременно — и показывает источники.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>Зрение</h3>
+        <p>Понимает прикреплённые фото, скриншоты и документы — опишет, распознает текст, подскажет.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 1 0 0-9h-.7A7 7 0 1 0 6 17.5"/><path d="M12 3v2M4.2 7.2l1.4 1.4M3 15h2"/></svg></div>
+        <h3>Погода</h3>
+        <p>Прогноз в любом городе и ответы «рядом со мной» — по вашему запросу.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+        <h3>Голосовой ввод</h3>
+        <p>Говорите вместо набора — ассистент распознаёт речь и отвечает.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+        <h3>9 языков</h3>
+        <p>Отвечает на русском, английском, испанском, французском, португальском, арабском, хинди, бенгали и китайском.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="16" r="1.3"/></svg></div>
+        <h3>Приватность</h3>
+        <p>Замок на отдельные чаты с разблокировкой по отпечатку или лицу. Мы не продаём данные и не следим.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1 0-8 6 6 0 0 1 11.7-1.5A3.5 3.5 0 0 1 18 18H7Z"/><path d="M12 21v-7m0 0-2.2 2.2M12 14l2.2 2.2"/></svg></div>
+        <h3>Облачная копия</h3>
+        <p>Вход через Яндекс, VK, Google или GitHub — история переносится на новое устройство после переустановки.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></div>
+        <h3>Плавность 120 Гц</h3>
+        <p>Нативное приложение: мгновенный отклик, плавная прокрутка и аккуратная тёмная тема.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="shots" style="padding-bottom:40px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Скриншоты</div>
+      <h2>Как это выглядит</h2>
+      <p>Живые экраны приложения — поиск, зрение, голос и многое другое.</p>
+    </div>
+  </div>
+  <div class="gallery reveal">
+    <div class="gcard"><img src="/legal/shot/1.jpg" alt="Поиск по сайтам" loading="lazy"></div>
+    <div class="gcard"><img src="/legal/shot/2.jpg" alt="Экран приложения" loading="lazy"></div>
+    <div class="gcard"><img src="/legal/shot/3.jpg" alt="Распознавание фото" loading="lazy"></div>
+    <div class="gcard"><img src="/legal/shot/4.jpg" alt="Экран приложения" loading="lazy"></div>
+    <div class="gcard"><img src="/legal/shot/5.jpg" alt="Экран приложения" loading="lazy"></div>
+    <div class="gcard"><img src="/legal/shot/6.jpg" alt="Экран приложения" loading="lazy"></div>
+    <div class="gcard"><img src="/legal/shot/7.jpg" alt="Экран приложения" loading="lazy"></div>
+    <div class="gcard"><img src="/legal/shot/8.jpg" alt="Экран приложения" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="sec privacy" id="privacy">
+  <div class="wrap inner">
+    <div class="reveal">
+      <div class="kicker" style="color:var(--blue2);font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px">Приватность</div>
+      <h2 style="font-size:clamp(28px,4.4vw,42px);font-weight:800">Ваши данные — только ваши</h2>
+      <ul class="plist">
+        <li><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Не продаём и не рекламируем.</b><p>Данные используются только для работы приложения — не для слежки и не для рекламы.</p></div></li>
+        <li><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Только по вашей команде.</b><p>Контакты, геолокация и показ экрана обрабатываются лишь в момент, когда вы сами попросили.</p></div></li>
+        <li><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Замок на чаты.</b><p>Личные переписки можно закрыть отпечатком пальца или лицом.</p></div></li>
+        <li><span class="pi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Облачная копия — по вашему входу.</b><p>История восстанавливается только после вашего входа в аккаунт.</p></div></li>
+      </ul>
+      <p style="margin-top:24px"><a href="/legal/privacy" class="btn btn-ghost">Политика конфиденциальности</a> <a href="/legal/terms" class="btn btn-ghost">Соглашение</a></p>
+    </div>
+    <div class="shieldwrap reveal">
+      <div class="shield">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec download" id="download">
+  <div class="wrap">
+    <div class="box reveal">
+      <h2>Установите Honer AI</h2>
+      <p class="d">Скачайте приложение прямо сейчас и попробуйте умного ассистента. Android 8.0 и новее.</p>
+      <div class="cta">
+        <a href="/legal/app" class="btn btn-primary btn-lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+          Скачать APK
+        </a>
+      </div>
+      <div class="dnote">При установке разрешите установку из этого источника в настройках Android.</div>
+      <div class="soon">Скоро в магазинах: <span class="b">RuStore</span> <span class="b">AppGallery</span> <span class="b">APKPure</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="brand"><img src="/legal/icon.png" alt="" style="width:30px;height:30px;border-radius:8px;vertical-align:middle;margin-right:8px">Honer AI</div>
+      <div class="meta">Оператор: XONER · <a href="mailto:helper2026ai@mail.ru" style="color:var(--muted)">helper2026ai@mail.ru</a></div>
+    </div>
+    <div class="flinks">
+      <a href="#features">Возможности</a>
+      <a href="#shots">Скриншоты</a>
+      <a href="#download">Скачать</a>
+      <a href="/legal/privacy">Политика конфиденциальности</a>
+      <a href="/legal/terms">Соглашение</a>
+    </div>
+    <div class="meta">© 2026 Honer AI. Все права защищены.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var hdr=document.getElementById('hdr');
+  var onScroll=function(){ if(window.scrollY>12) hdr.classList.add('scrolled'); else hdr.classList.remove('scrolled'); };
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  var btn=document.getElementById('menuBtn'), nav=document.getElementById('nav');
+  btn.addEventListener('click',function(){ nav.classList.toggle('open'); });
+  nav.addEventListener('click',function(e){ if(e.target.tagName==='A') nav.classList.remove('open'); });
+
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
